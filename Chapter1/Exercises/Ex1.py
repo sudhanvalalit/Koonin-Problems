@@ -12,7 +12,7 @@ def f(x):
 
 
 def deriv(x):
-    return "{:.5E} {:.5E} {:.5E}".format(math.cos(x), -math.sin(x), math.cos(x))
+    return "{:.5E} {:.5E} {:.5E}".format(math.cos(x), -math.sin(x), -math.cos(x))
 
 
 def FourPoint(x, h):
