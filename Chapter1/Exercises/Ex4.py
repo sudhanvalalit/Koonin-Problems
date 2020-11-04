@@ -23,7 +23,7 @@ def main():
         iter += 1
         x0 += dx
         error = math.sqrt(5.0) - x0
-        print("{:.5E} {:.5E} {:.5E}".format(iter, x0, error))
+        print("{} {:.5E} {:.5E}".format(iter, x0, error))
         if fold * func(x0) < 0.0:
             x0 -= dx
             dx = dx / 2

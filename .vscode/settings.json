@@ -1,0 +1,4 @@
+{
+    "cmake.configureOnOpen": false,
+    "python.formatting.provider": "autopep8"
+}

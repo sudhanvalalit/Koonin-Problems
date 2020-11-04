@@ -9,6 +9,11 @@ different change of variable in each integral to handle the singularities.)
 """
 
 import numpy as np
+from Ex2 import Simpson13
+
+
+def f(x):
+    return x**(-2/3)*(1-x)**(-1/3)
 
 
 def main():
