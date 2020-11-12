@@ -1,4 +1,6 @@
-# Koonin-Problems
+# Computational Physics 
+## Python version
+## Authors: Steven E. Koonin, Dawn C. Meredith
 Steven Koonin Computational physics exercises and projects done using python
 
 ## Table of Contents
