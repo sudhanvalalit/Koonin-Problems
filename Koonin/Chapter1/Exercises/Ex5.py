@@ -17,11 +17,17 @@ def f(x):
 def Newton_Raphson(f, x):
     dx = 0.2
     fvalue = f(x)
+    count = 0
     while abs(fvalue) > tolx:
         x += dx
         fprime = derivative(f, x, 1e-4)
         fvalue = f(x)
         dx = -fvalue/fprime
+        count += 1
+        if count > 1000:
+            raise Exception("Exceeded the number of iterations.")
+            break
+
     return x
 
 

@@ -7,6 +7,13 @@ automate the plotting operation.)
 """
 
 import numpy as np
+import matplotlib.pyplot as plt
+
+# Constants
+
+
+def Lennard-Jones(x):
+    return 4*V0*((a/x)**12 - (a/x)**6)
 
 
 def main():
