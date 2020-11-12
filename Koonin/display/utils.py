@@ -2,6 +2,12 @@
 from os import system, name
 
 
+class display:
+
+    def __init__():
+        pass
+
+
 def clear():
     # for windows
     if name == 'nt':
@@ -18,6 +24,7 @@ def centerify(text, width=-1):
 
 
 def header(description, nhead, ntext, ngraph):
+    print("You inserted {} {} {} {}".format(description, nhead, ntext, ngraph))
 
 
 def main():

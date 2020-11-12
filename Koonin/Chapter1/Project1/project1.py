@@ -5,7 +5,6 @@ Project 1:
 '''
 
 import numpy as np
-import utils
 
 # Constants
 V0 = 1.0
@@ -82,7 +81,6 @@ def display_menu():
 
 
 def Initialize():
-    utils.clear()
     display_menu()
 
 
