@@ -59,33 +59,8 @@ def integration(b, rmax, E):
     return 2*b*(int1 - int2), rmin
 
 
-def menu():
-    pass
-
-
-def centerify(text, width=-1):
-    lines = text.split('\n')
-    width = max(map(len, lines)) if width == -1 else width
-    return '\n'.join(line.center(width) for line in lines)
-
-
-def display_menu():
-    print(centerify(
-        "Project 1 \n Scattering by a 6-12 potential "))
-    print()
-    print(centerify(
-        "impact parameter, radius of closest approach \n and the angle of deflection "))
-    print()
-    print(centerify("deflection function \n (scattering angle vs. impact parameter)"))
-    menu()
-
-
-def Initialize():
-    display_menu()
-
-
 def main():
-    Initialize()
+
     #rmin = 2**(1/6)*a
     rmax = 2.4
     E = float(input("Input the value of E: "))
