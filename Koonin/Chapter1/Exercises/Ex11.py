@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 # Constants
 
 
-def Lennard-Jones(x):
+def Lennard_Jones(x):
     return 4*V0*((a/x)**12 - (a/x)**6)
 
 
