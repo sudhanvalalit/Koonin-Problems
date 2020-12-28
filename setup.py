@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='Koonin',
-      version='0.1',
+      version='0.1.1a',
       description="Koonin's Computational Physics",
       packages=['Koonin'],
       author='Sudhanva Lalit',

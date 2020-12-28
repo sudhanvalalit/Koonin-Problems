@@ -33,14 +33,16 @@ class Display:
                 print(centerify("\n Text output displays"))
             if i == nhead + ntext + 1:
                 print(centerify("Graphics output displays"))
-        print(centerify(description))
+        print(centerify(''.join(description)))
         input("Press the <ENTER> key to begin the program...")
         Display.clear()
 
 
 def main():
     Display.clear()
-    descrip = "This text is written for \n display purposes only"
+    descrip = []
+    descrip.append("This text is written for \n")
+    descrip.append("display purposes only")
     Display.header(descrip, 1, 0, 0)
 
 

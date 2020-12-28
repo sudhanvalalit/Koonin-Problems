@@ -3,15 +3,23 @@ Example 1: Bohr-Sommerfeld quantization for bound states of the Lennard-Jones Po
 
 Computational Physics (Python version)
 """
+
 import numpy as np
 import os
 import sys
-
-sys.path.append("../display/")
-from utils import Display
+from ..display.utils import Display
 
 etol = 1e-6
 xtol = 1e-6
+maxlat = 1000  # Max number of lattice points
+V = np.zeros(maxlat)
+x = np.zeros(maxlat)
+maxlvl = 10  # Maximum number of quantum levels
+igamma = 13
+ietol = 38
+ixtol = 39
+inpts = 40
+ingrf = 87
 
 
 def archon():
@@ -19,9 +27,21 @@ def archon():
     Finds the bound states of the Lennard-Jones potential from the Bohr-Sommerfeld
     quantization rule
     """
+    xin = np.empty(maxlvl)
+    xout = np.empty(maxlvl)
+    Energy = np.empty(maxlvl)
+    NLEVEL = maxlvl
+    E1 = -1.0               # Begin at well bottom
+    F1 = -np.pi/2           # the action is zero there
+    # Find the nlevel bound states
+    for i in range(NLEVEL-1):
+        Energy[i], xin[i], xout[i] = search(i, E1, F1)
+        F1 = F1 - np.pi
+        print(
+            f"{i} \t {Energy[i]:.5e} \t {F1:.5e} \t {xin[i]:.5e} \t {xout[i]:.5e}")
 
 
-def search(n, E1, f1, x1, x2):
+def search(n, E1, f1):
     """
     finds the n'th bound state
     E1 is passed in as initial guess for the bound state energy and returned as the true
@@ -32,10 +52,10 @@ def search(n, E1, f1, x1, x2):
     # Guess the next energy in order to begin search
     E2 = E1 + abs(E1) / 4.0
     de = 2.0 * etol
-
+    x1, x2 = 0, 0
     # use secant search to find the bound state
     while abs(de) > etol:
-        s = action(E2)  # S at new energy
+        x1, x2, s = action(E2)  # S at new energy
         f2 = s - (n + 0.5) * np.pi  # F at new energy
         if f1 != f2:
             de = -f2 * (E2 - E1) / (f2 - f1)
@@ -49,10 +69,12 @@ def search(n, E1, f1, x1, x2):
         if E2 >= 0:
             E2 = -etol
 
+    return E2, x1, x2
+
 
 def action(E):
     """
-    Calculates the action integral/2 (s) and the classical turning points (x1,x2) for a
+    Calculates the (action integral)/2 (S) and the classical turning points (x1,x2) for a
     given energy (E)
     ===================================================================================
 
@@ -75,7 +97,7 @@ def action(E):
     """
 
     # Find inner turning point; begin search at the well bottom
-    potmin = 0.0  # TODO: Replace with original and remove this
+    potmin = 2**(1.0/6)
     x1 = potmin
     dx = 0.1
     while dx > xtol:
@@ -94,10 +116,10 @@ def action(E):
             dx /= 2
 
     # Simpson's rule from x1 + h to x2 - h
-    npts = 0  # TODO: remove this
+    npts = 32  # TODO: remove this
     if npts % 2 == 1:
         npts += 1
-    h = (x2 - x2) / npts
+    h = (x2 - x1) / npts
     sum1 = np.sqrt(E - Potential(x1 + h))
     ifac = 2
     for i in range(1, npts - 1):
@@ -114,8 +136,10 @@ def action(E):
     # Special handling for sqrt behavior of first and last intervals
     sum1 += np.sqrt(E - Potential(x1 + h)) * 2 * h / 3
     sum1 += np.sqrt(E - Potential(x2 - h)) * 2 * h / 3
-    gamma = 1.0  # TODO: Define gamma and remove this
-    return sum1 * gamma
+    # TODO: Define gamma and remove this
+    gamma = 1.0  # np.sqrt(2.0*mass*length**2*potential/hbar**2)
+    S = sum1 * gamma
+    return x1, x2, S
 
 
 def Potential(x):
@@ -134,19 +158,77 @@ def centerify(text, width=-1):
     return "\n".join(line.center(width) for line in lines)
 
 
-def initialize():
+def init():
+    """
+    Initializes constants, displays header screen, initializes menu arrays for input parameter
+    """
+    # Get environment parameters
+    description = []
+    description.append("Example 1 \n")
+    description.append("Bohr-Sommerfeld quantization for bound state \n ")
+    description.append("energies of the 6-12 potenial \n")
+    nhead = 3
+
+    # text output description
+    description.append("energy and classical turning points for each state \n")
+    ntext = 1
+
+    # graphics output description
+    description.append("phase space (wavenumber vs position) portrait \n")
+    description.append("of classical trajectories \n")
+    ngraph = 2
+
+    # Call header
+    Display.header(description, nhead, ntext, ngraph)
+
+
+def param():
+    pass
+
+
+def pcheck():
+    pass
+
+
+def prmout(munit, nlines):
+    if munit == ounit:  # TODO : define ounit
+        Display.clear()
+    #
+    print(' ')
+    print(' Output from example 1: Bohr Sommerfeld Quantization \n')
     print(
-        centerify(
-            "Example 1 \n Bohr-Sommerfeld quantization for bound state \n energies of the 6-12 potenial"
-        )
-    )
-    print(centerify("energy and classical turning points for each state "))
+        "Energy tolerence = {:.5E} \t position tolerance = {:.5E}".format(etol, xtol))
+    print(" number of quadrature points = {:4I}".format(npts))
+    print("For gamma = {:.F2} there are {:4I} levels:".format(gamma, nlevel))
+    print("(all quantities are expressed in scaled units)")
+    #
+    if munit != gunit:  # TODO: define gunit
+        print('\t Level \t Energy \t xmin \t xmax')
+        print("\t ----- \t ----- \t ----- \t -----")
+
+    nlines = 7  # TODO: Is nlines input or returned?
+
+
+def txtout():
+    """
+    Writes results for one state to the requested unit
+    """
+
+    # if screen is full, clear screen and retype headings
+    if(nlines % (trmlin-6) == 0) and (munit == ounit):
+        input('to continue...')
+        Display.clear()
+        # TODO: continue from here
+
+
+def grfout():
+    pass
 
 
 def main():
     Display.clear()
-    description = "Example 1 \n Bohr-Sommerfeld quantization for bound state \n energies of the 6-12 potenial"
-    Display.header(description, 1, 1, 0)
+    init()
+    archon()
 
 
 if __name__ == "__main__":
