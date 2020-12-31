@@ -1,5 +1,5 @@
 from os import system, name
-from menu import Menu
+from .menu import *
 
 __all__ = ["Ask"]
 
@@ -20,9 +20,20 @@ def Ask(start, end):
         parse       - determines menu branching
         yesno       - boolean input
     """
+
     while start < end:
         i = start
-        if mtype[i] == float:
+        if type(mtype[i]) == float:
             mreals[i] = getflt(mreals[i], mlolim[i], mhilim[i], mprmpt[i])
 
         start += 1
+    # TODO: Continue here
+
+
+def getflt(x, xmin, xmax, xprmpt):
+    """
+    Get a  floating point number getflt; make sure it is between xmin and xmax and
+    prompt with xprmpt
+    If your compiler accepts (FMT=*) to an internal unit, comment out lines 3 and 5
+    and uncomment lines 2 and 4 [Not needed in python]
+    """

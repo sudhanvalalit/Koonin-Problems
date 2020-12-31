@@ -9,6 +9,7 @@ import os
 import sys
 from ..display.utils import Display
 
+
 etol = 1e-6
 xtol = 1e-6
 maxlat = 1000  # Max number of lattice points
@@ -137,7 +138,7 @@ def action(E):
     sum1 += np.sqrt(E - Potential(x1 + h)) * 2 * h / 3
     sum1 += np.sqrt(E - Potential(x2 - h)) * 2 * h / 3
     # TODO: Define gamma and remove this
-    gamma = 1.0  # np.sqrt(2.0*mass*length**2*potential/hbar**2)
+    gamma = 30.0  # np.sqrt(2.0*mass*length**2*potential/hbar**2)
     S = sum1 * gamma
     return x1, x2, S
 
@@ -180,6 +181,10 @@ def init():
 
     # Call header
     Display.header(description, nhead, ntext, ngraph)
+    potmin = 2**(1.0/6)
+    Display.Menu(archon)
+    #Menu.mtype[12] = Float
+    #mprmpt[12] = 'Enter gamma = sqrt(2*m*a**2*V/hbar**2) (dimensionless)'
 
 
 def param():
@@ -187,10 +192,31 @@ def param():
 
 
 def pcheck():
-    pass
+    '''
+    Ensure that the number of states is not greater than the size of the data arrays;
+    if so prompt for smaller gamma
+    '''
+    while (nlevel-1) > maxlvl:
+        print("Total number of levels (= {:I5}) is larger than maximum allowable (= {:I3})".format(
+            nlevel, maxlevel))
+        mhilim[igamma] = gamma
+        mreals[igamma] = getflt(
+            mreals[igamma]/2, mlolim[igamma], mhilim[igamma], 'Enter a smaller gamma')
+        gamma = mreals[igamma]
+        #
+        E = -etol
+        x1, x2, S = action(E)
+        nlevel = int(S/np.pi + 0.5) + 1
 
 
-def prmout(munit, nlines):
+def prmout(munit):
+    '''
+    outputs parameter summary to the specified unit
+    Input variables:
+        munit   -   unit number for output 
+    Output variables:
+        nlines  -   number of lines written so far
+    '''
     if munit == ounit:  # TODO : define ounit
         Display.clear()
     #
@@ -206,19 +232,32 @@ def prmout(munit, nlines):
         print('\t Level \t Energy \t xmin \t xmax')
         print("\t ----- \t ----- \t ----- \t -----")
 
-    nlines = 7  # TODO: Is nlines input or returned?
+    nlines = 7
+    return nlines
 
 
-def txtout():
+def txtout(munit, ilevel, E, x1, x2, nlines):
     """
     Writes results for one state to the requested unit
+    Input variables:
+        munit   -   output unit specifier
+        ilevel  -   current level
+        E       -   Eigen energy
+        x1,x2   -   classical turning points
+        nlines  -   number of lines printed so far               
     """
 
     # if screen is full, clear screen and retype headings
     if(nlines % (trmlin-6) == 0) and (munit == ounit):
         input('to continue...')
         Display.clear()
-        # TODO: continue from here
+        print("Level \t Energy \t Xmin \t Xmax")
+        print("----- \t ----- \t ----- \t -----")
+        print(f"{ilevel:4I} \t {E:.5E} \t {x1:.5E} \t {x2:.5E}")
+
+    # keep track of printed lines only for terminal output
+    if munit == ounit:
+        nlines += 1
 
 
 def grfout():
@@ -228,7 +267,6 @@ def grfout():
 def main():
     Display.clear()
     init()
-    archon()
 
 
 if __name__ == "__main__":
