@@ -15,14 +15,16 @@ def deriv(x):
     return "{:.5E} {:.5E} {:.5E}".format(math.cos(x), -math.sin(x), -math.cos(x))
 
 
-def FourPoint(x, h):
-    dfdx = (-2.0 * f(x - h) - 3.0 * f(x) + 6.0 * f(x + h) - f(x + 2.0 * h)) / (6.0 * h)
+def FourPoint(f, x, h):
+    dfdx = (-2.0 * f(x - h) - 3.0 * f(x) + 6.0 *
+            f(x + h) - f(x + 2.0 * h)) / (6.0 * h)
     d2fdx2 = (f(x - h) - 2.0 * f(x) + f(x + h)) / h ** 2
-    d3fdx3 = (-f(x - h) + 3.0 * f(x) - 3.0 * f(x + h) + f(x + 2.0 * h)) / h ** 3
+    d3fdx3 = (-f(x - h) + 3.0 * f(x) - 3.0 *
+              f(x + h) + f(x + 2.0 * h)) / h ** 3
     return "{:.5E} {:.5E} {:.5E}".format(dfdx, d2fdx2, d3fdx3)
 
 
-def FivePoint(x, h):
+def FivePoint(f, x, h):
     dfdx = (f(x - 2.0 * h) - 8.0 * f(x - h) + 8.0 * f(x + h) - f(x + 2.0 * h)) / (
         12.0 * h
     )
@@ -41,7 +43,8 @@ def FivePoint(x, h):
 
 def main():
     x = math.pi / 6.0
-    title = "{:12} {:12} {:12} {:12}".format(" ", "First ", "Second ", "Third ")
+    title = "{:12} {:12} {:12} {:12}".format(
+        " ", "First ", "Second ", "Third ")
     for i in range(5):
         h = 0.1 ** i
         y = "{:.5E}".format(h)

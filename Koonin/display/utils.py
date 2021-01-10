@@ -96,10 +96,8 @@ class Display:
 
             elif choice == 6:
                 Display.clear()
-
-                def execute_archon():
-                    func()
-                return execute_archon()
+                func()
+                input("Press enter to continue...")
 
             # TODO: improve to add choices and run the function with the given choices
             Display.clear()

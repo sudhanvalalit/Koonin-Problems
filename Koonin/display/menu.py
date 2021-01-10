@@ -23,6 +23,12 @@ Pprint = 12             # print out parameters
 Clrtrm = 13             # Clear screen
 
 
+def setup():
+    '''
+    Allows users to supply i/o parameters for their computing environment
+    '''
+
+
 def Menu(*args):
     mtype, mprmpt, mtag, mstring = [], [], [], []
     # Fill in mtype
@@ -141,11 +147,12 @@ def Menu(*args):
     [mstring.append(Mtitle) for i in range(100)]
     mstring[1] = "cmphys.txt"
     mstring[2] = "cmphys.grf"
+    return mtype, mprmpt, mhilim, mlolim, mreals, mints, mstring
 
 
 def main():
     ls = [1, 2, 3, 4, 5]
-    Menu(*ls)
+    # Menu(*ls)
 
 
 if __name__ == "__main__":
