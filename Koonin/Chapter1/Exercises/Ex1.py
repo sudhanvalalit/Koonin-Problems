@@ -48,7 +48,7 @@ def main():
     for i in range(5):
         h = 0.1 ** i
         y = "{:.5E}".format(h)
-        data = [y, FourPoint(x, h), FivePoint(x, h), deriv(x)]
+        data = [y, FourPoint(f, x, h), FivePoint(f, x, h), deriv(x)]
         prefix = ["h        ", "Four Point", "Five Point", "Exact     "]
         print(title)
         for col, row in zip(prefix, data):
