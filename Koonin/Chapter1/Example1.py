@@ -7,8 +7,9 @@ Computational Physics (Python version)
 import numpy as np
 import os
 import sys
-from ..display.utils import Display
-
+from ..display.utils import Display, selected_choices
+from ..display.ask import Ask
+from ..display.menu import *
 
 etol = 1e-6
 xtol = 1e-6
@@ -21,6 +22,8 @@ ietol = 38
 ixtol = 39
 inpts = 40
 ingrf = 87
+# TODO: Correct the value of maxgrf
+maxgrf = 10
 
 
 def archon():
@@ -182,13 +185,65 @@ def init():
     # Call header
     Display.header(description, nhead, ntext, ngraph)
     potmin = 2**(1.0/6)
-    Display.Menu(archon)
-    #Menu.mtype[12] = Float
-    #mprmpt[12] = 'Enter gamma = sqrt(2*m*a**2*V/hbar**2) (dimensionless)'
+    # Display.Menu(archon)
+    ls = [1, 2, 3, 4, 5]
+    mtype, mprmpt, mhilim, mlolim, mreals, mints, mstring, mtag = Menu(*ls)
+    mints = mints.astype(np.int)
+    print(type(mints))
+    mtype[12] = Float
+    mprmpt[12] = 'Enter gamma = sqrt(2*m*a**2*V/hbar**2) (dimensionless)'
+    mtag[12] = 'Gamma (dimensionless)'
+    mlolim[12] = 1
+    mhilim[12] = 500
+    mreals[12] = 50
+
+    mtype[13] = Skip
+    mreals[13] = 35
+
+    mtype[37] = Float
+    mprmpt[37] = 'Enter tolerance for energy search (scaled units)'
+    mtag[37] = 'Energy search tolerance (scaled units)'
+    mlolim[37] = 1e-5
+    mhilim[37] = 0.01
+    mreals[37] = 5e-3
+    mtype[38] = Float
+    mprmpt[38] = 'Enter tolerance for turning point search (scaled units)'
+    mtag[38] = 'Turning point search tolerance (scaled units)'
+    mlolim[38] = 1e-5
+    mhilim[38] = 0.01
+    mreals[38] = 5e-3
+
+    mtype[39] = Num
+    mprmpt[39] = 'Enter number of points for action integral'
+    mtag[39] = 'Number of quadrature points for action integral'
+    mlolim[39] = 20.0
+    mhilim[39] = 5e3
+    mints[39] = 100
+
+    mtype[40] = Skip
+    mreals[40] = 60.0
+    mstring[mints[74]] = 'example1.txt'
+    mtype[75] = Skip
+    mreals[75] = 80.0
+
+    mstring[mints[85]] = 'example.pdf'
+    mtype[86] = Num
+    mprmpt[86] = 'Enter number of points to be used in graphing'
+    mtag[86] = 'Number of graphing points'
+    mlolim[86] = 10
+    mhilim[86] = maxgrf - 2
+    mints[86] = 80
+
+    mtype[87] = Skip
+    mreals[87] = 90.0
+
+    data = [mtype, mprmpt, mhilim, mlolim, mreals, mints, mstring, mtag]
+    selected_choices(archon, data)
 
 
 def param():
-    pass
+    Display.clear()
+    Ask(1, istop)
 
 
 def pcheck():
@@ -267,6 +322,7 @@ def grfout():
 def main():
     Display.clear()
     init()
+    archon()
 
 
 if __name__ == "__main__":

@@ -147,7 +147,7 @@ def Menu(*args):
     [mstring.append(Mtitle) for i in range(100)]
     mstring[1] = "cmphys.txt"
     mstring[2] = "cmphys.grf"
-    return mtype, mprmpt, mhilim, mlolim, mreals, mints, mstring
+    return mtype, mprmpt, mhilim, mlolim, mreals, mints, mstring, mtag
 
 
 def main():

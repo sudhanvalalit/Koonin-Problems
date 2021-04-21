@@ -103,6 +103,46 @@ class Display:
             Display.clear()
 
 
+def selected_choices(func, data):
+    mtype, mprmpt, mhilim, mlolim, mreals, mints, mstring, mtag = data
+    choice = 6
+    while choice != 7:
+        for i in range(1, 9):
+            print("\t", mprmpt[i])
+        choice = int(
+            input("Make a menu choice [{}]: \n".format(choice)) or choice)
+        if choice == 1:
+            Display.clear()
+            print("\t", mprmpt[11])
+            input("You selected 1")
+
+        elif choice == 2:
+            print("\t", mprmpt[36])
+            input("You selected 2")
+
+        elif choice == 3:
+            Display.clear()
+            myList1 = [61, 62, 63, 64]
+            [print("\t", mprmpt[i]) for i in myList1]
+            newChoice = int(input(mprmpt[65]))
+            if newChoice == 3:
+                Display.clear()
+                exit
+        elif choice == 4:
+            print("\t", "Display parameters here")
+            input("Choice 4")
+        elif choice == 5:
+            print("\t CHoice 5")
+
+        elif choice == 6:
+            Display.clear()
+            func()
+            input("Press enter to continue...")
+
+        # TODO: improve to add choices and run the function with the given choices
+        Display.clear()
+
+
 def main():
     Display.clear()
     descrip = []
