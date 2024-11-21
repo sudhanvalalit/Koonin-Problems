@@ -1,4 +1,4 @@
-"""
+r"""
 The following FORTRAN program finds the positive root of the function 
 
 ..math::

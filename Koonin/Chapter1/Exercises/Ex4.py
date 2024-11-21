@@ -1,4 +1,4 @@
-"""
+r"""
  Exercise 1.4: Run the code above for various tolerances, initial guesses, and initial step sizes. Note that sometimes you might find convergence to the negative root. What happens if you start with an initial guess of -3 with a step size of 6?
 
  Code: chap1c.for

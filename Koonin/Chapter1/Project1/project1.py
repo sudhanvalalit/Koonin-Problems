@@ -71,7 +71,7 @@ def main():
         b = i*h
         result, rmin = integration(b, rmax, E)
         diff = 2.0*(np.arccos(b/rmax) - np.pi/2.0) - result
-        print("b = {:.4f}, I = {:.5f}, Radius = {:.5f}".format(b, result, rmin))
+        print(f"b = {b:.4f}, I = {result:.5f}, Radius = {rmin:.5f}")
 
 
 if __name__ == "__main__":

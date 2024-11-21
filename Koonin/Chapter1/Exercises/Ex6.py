@@ -1,4 +1,4 @@
-"""
+r"""
 Exercise 1.6: The function f(x) = tanh x has a root at x = 0. Write a program to show that
 the Newton-Raphson method does not converge for an initial guess of x >~ 1. Can you understand
 what's going wrong by considering a graph of tanh x? From the explicit form of (1.14) for
@@ -9,7 +9,7 @@ initial guesses if you try to find the x = 0 root of tan x using either method?
 
 import numpy as np
 import matplotlib.pyplot as plt
-from Ex5 import Newton_Raphson, Secant
+from .Ex5 import Newton_Raphson, Secant
 
 
 def f(x):
@@ -26,25 +26,23 @@ def plot_function(f, limits):
 
 def main():
     result = Newton_Raphson(f, 1.5)
-    print("Root using Newton Raphson method (x > 1): {:.6F}".format(result))
+    print(f"Root using Newton Raphson method (x > 1): {result:.6F}")
     result = Newton_Raphson(f, 0.2)
-    print("Root using Newton Raphson method (x < 1): {:.6F}".format(result))
+    print(f"Root using Newton Raphson method (x < 1): {result:.6F}")
     result1 = Secant(f, 0.50)
     print("Root using Secant method: {:.6F}".format(result1))
 
     # Investigate the behavior of latter method, i.e. secant method
-    print("\t \t \t \t Iter \t Result \t Error")
+    print("\t \t Iter \t Result \t Error")
     for i in range(10):
         if i % 2 == 0:
             result = Secant(g, i/10)
             diff = 0.0 - result
-            print("Using Sec method: {:2} \t {:.6f} \t {:.5E}".format(
-                i, result, diff))
+            print(f"Using Sec method: {i:2} \t {result:.6f} \t {diff:.5E}")
         else:
             result = Newton_Raphson(g, i/10)
             diff = 0.0 - result
-            print("Using N-R method: {:2} \t {:.6f} \t {:.5E}".format(
-                i, result, diff))
+            print(f"Using N-R method: {i:2} \t {result:.6f} \t {diff:.5E}")
 
 
 if __name__ == "__main__":

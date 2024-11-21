@@ -7,9 +7,9 @@ Computational Physics (Python version)
 import numpy as np
 import os
 import sys
-from ..display.utils import Display, selected_choices
-from ..display.ask import Ask
-from ..display.menu import *
+from Koonin.display.utils import Display, selected_choices
+from Koonin.display.ask import Ask
+from Koonin.display.menu import *
 
 etol = 1e-6
 xtol = 1e-6
@@ -27,7 +27,7 @@ maxgrf = 10
 
 
 def archon():
-    """
+    r"""
     Finds the bound states of the Lennard-Jones potential from the Bohr-Sommerfeld
     quantization rule
     """
@@ -46,7 +46,7 @@ def archon():
 
 
 def search(n, E1, f1):
-    """
+    r"""
     finds the n'th bound state
     E1 is passed in as initial guess for the bound state energy and returned as the true
         bound state energy with turning points x1 and x2
@@ -77,7 +77,7 @@ def search(n, E1, f1):
 
 
 def action(E):
-    """
+    r"""
     Calculates the (action integral)/2 (S) and the classical turning points (x1,x2) for a
     given energy (E)
     ===================================================================================
@@ -147,7 +147,7 @@ def action(E):
 
 
 def Potential(x):
-    """
+    r"""
     Evaluates the Lennard-Jones Potential at x.
     If you change the potential, normalize to a minimum of -1 and change the value of
     potmin in function init to the new equilibrium position (i.e. the X valuee at
@@ -188,8 +188,8 @@ def init():
     # Display.Menu(archon)
     ls = [1, 2, 3, 4, 5]
     mtype, mprmpt, mhilim, mlolim, mreals, mints, mstring, mtag = Menu(*ls)
-    mints = mints.astype(np.int)
-    print(type(mints))
+    mints = mints.astype(int)
+    # print(type(mints))
     mtype[12] = Float
     mprmpt[12] = 'Enter gamma = sqrt(2*m*a**2*V/hbar**2) (dimensionless)'
     mtag[12] = 'Gamma (dimensionless)'
@@ -323,6 +323,7 @@ def main():
     Display.clear()
     init()
     archon()
+    Display.clear()
 
 
 if __name__ == "__main__":

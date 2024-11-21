@@ -1,11 +1,11 @@
-"""
+r"""
 Exercise 1.5: Write programs to solve for the positive root of x^2-5 using the Newton-Raphson
 and secant methods. Investigate the behavior of the latter with changes in the initial guesses
 for the root.
 
 """
 import numpy as np
-from scipy.misc import derivative
+from .Ex1 import FourPoint, FivePoint
 
 tolx = 1e-6
 
@@ -14,14 +14,14 @@ def f(x):
     return x**2 - 5.0
 
 
-def Newton_Raphson(f, x):
+def Newton_Raphson(func, x):
     dx = 0.2
-    fvalue = f(x)
+    fvalue = func(x)
     count = 0
     while abs(fvalue) > tolx:
         x += dx
-        fprime = derivative(f, x, 1e-4)
-        fvalue = f(x)
+        fprime, fpp, fppp = FivePoint(func, x, tolx)
+        fvalue = func(x)
         dx = -fvalue/fprime
         count += 1
         if count > 1000:
@@ -48,16 +48,16 @@ def Secant(f, x):
 
 def main():
     result = Newton_Raphson(f, 4.0)
-    print("Root using Newton Raphson method: {:.6F}".format(result))
+    print(f"Root using Newton Raphson method: {result:.6F}")
     result1 = Secant(f, 4.0)
-    print("Root using Secant method: {:.6F}".format(result1))
+    print(f"Root using Secant method: {result1:.6F}")
 
     # Investigate the behavior of latter method, i.e. secant method
     print("Iter \t Result \t Error")
     for i in range(10):
         result = Secant(f, i)
         diff = np.sqrt(5) - result
-        print("{:2} \t {:.6f} \t {:.5E}".format(i, result, diff))
+        print(f"{i:2} \t {result:.6f} \t {diff:.5E}")
 
 
 if __name__ == "__main__":
